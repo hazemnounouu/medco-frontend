@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   ProSidebar,
   Menu, MenuItem
@@ -26,6 +26,7 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 import AdminImage from '../../assets/admin.png'
+import { AuthContext } from "../../shared/context/AuthContext";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -50,6 +51,19 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+
+
+  const { token } = useContext(AuthContext);
+
+  if (!token) {
+    return null;
+  }
+
+
+
+
+
+
 
   return (
     <Box
@@ -118,11 +132,11 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  Admin
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
-                </Typography>
+                {/* <Typography variant="h5" color={colors.greenAccent[500]}>
+                  System Admin
+                </Typography> */}
               </Box>
             </Box>
           )}
@@ -174,7 +188,7 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Profile Form"
-              to="/form"
+              to="/add-doctor"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

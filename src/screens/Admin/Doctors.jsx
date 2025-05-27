@@ -28,11 +28,7 @@ const Team = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { userLogin } = useContext(UserContext);
-
-  if (!userLogin) {
-    return null; // Hide page if user is not logged in
-  }
+  const { token } = useContext(AuthContext);
 
 
   const handleDeleteDoctor = (id) => async () => {
@@ -41,7 +37,7 @@ const Team = () => {
       const res = await axios
         .delete('http://localhost:4000/api/admin/delete-doctor', {
           headers: {
-            'atoken': userLogin,
+            'atoken': token,
             'Content-Type': 'application/json',
           },
           data: { "docId": id },

@@ -13,11 +13,22 @@ export const ProtectedRoute = ({ children }) => {
 };
 
 export const SignedInProtectedRoute = ({ children }) => {
-    const { token } = useContext(AuthContext);
+    const { token, role } = useContext(AuthContext);
 
-    if (token) {
+    if (role === 'admin') {
         return <Navigate to="/dashboard" replace />;
+    } else if (role == 'doctor') {
+        return <Navigate to="/appointments" replace />;
     }
     return children;
 };
 
+
+export const AdminProtectedRoute = ({ children }) => {
+    const { role } = useContext(AuthContext);
+
+    if (role !== 'admin') {
+        return <Navigate to="/appointments" replace />;
+    }
+    return children;
+};

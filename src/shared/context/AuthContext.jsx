@@ -4,7 +4,8 @@ export const AuthContext = createContext({
     token: null,
     isLoggedIn: false,
     userId: null,
-    login: (userId, token) => { },
+    role: null,
+    login: (userId, token, role) => { },
     logout: () => { },
     isAdmin: false,
 });
@@ -13,6 +14,7 @@ const getUserData = () => {
     let userData = {
         token: null,
         userId: null,
+        role: null
     };
 
     try {
@@ -30,18 +32,20 @@ const getUserData = () => {
 
 const AuthContextProvider = ({ children }) => {
     const [userSession, setUserSession] = useState(getUserData());
-    const { token, userId } = userSession;
+    const { token, userId, role } = userSession;
 
     const login = useCallback((userId, token) => {
         setUserSession({
             token,
             userId,
+            role
         });
         localStorage.setItem(
             'userData',
             JSON.stringify({
                 userId,
                 token,
+                role
             })
         );
     }, []);
@@ -50,6 +54,7 @@ const AuthContextProvider = ({ children }) => {
         setUserSession({
             token: null,
             userId: null,
+            role: null
         });
         localStorage.removeItem('userData');
     }, []);
@@ -60,6 +65,7 @@ const AuthContextProvider = ({ children }) => {
             login(
                 storedData.userId,
                 storedData.token,
+                storedData.role
             );
         }
     }, [login]);
@@ -68,6 +74,7 @@ const AuthContextProvider = ({ children }) => {
         isLoggedIn: !!token,
         token,
         userId,
+        role,
         login,
         logout,
     };

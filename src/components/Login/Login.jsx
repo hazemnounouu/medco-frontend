@@ -8,6 +8,10 @@ import logo from "../../assets/empogin.jpg"
 import { AuthContext } from '../../shared/context/AuthContext';
 
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+
+
 
 
 export default function Login() {
@@ -24,16 +28,24 @@ export default function Login() {
     setisLoading(true);
 
     try {
-
       const res = await axios
         .post('http://localhost:4000/api/admin/login', values)
 
       if (res.data.success == true) {
         setisLoading(false)
 
-        login(res.data.userId, res.data.token)
+        const { userId, token, role } = res.data
 
-        navigate("/dashboard")
+        console.log(res.data)
+
+        login(userId, token, role);
+
+        if (role == 'admin') {
+          navigate("/dashboard")
+        }
+        else {
+          navigate('appointments')
+        }
       }
     }
 
@@ -61,9 +73,6 @@ export default function Login() {
     onSubmit: handleLogin,
 
   })
-
-
-
 
 
 
@@ -133,7 +142,8 @@ export default function Login() {
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
             {isLoading ? (
-              <i className='fas fa-spinner fa-spin'></i>
+              <FontAwesomeIcon icon={faSpinner} />
+              // <i className='fas fa-spinner fa-spin'></i>
             ) : "Login"}
           </button>
           {ApiError ? (

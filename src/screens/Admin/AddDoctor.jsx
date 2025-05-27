@@ -15,11 +15,8 @@ const AddDoctor = () => {
   const [ApiError, setApiError] = useState("")
   const [CreadtedAlert, setCreatedAlert] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  let { userLogin } = useContext(UserContext)
+  let { token } = useContext(AuthContext)
 
-  if (!userLogin) {
-    return null; //
-  }
 
   const addDoctor = async (formData) => {
     console.log('START');
@@ -31,7 +28,7 @@ const AddDoctor = () => {
       const res = await axios
         .post('http://localhost:4000/api/admin/add-doctor', formData, {
           headers: {
-            'atoken': userLogin,
+            'atoken': token,
             'Content-Type': 'multipart/form-data' // Set proper content type for file uploads
           }
         })

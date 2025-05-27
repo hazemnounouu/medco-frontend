@@ -1,16 +1,7 @@
 import { useState } from 'react'
+import { Route, Routes } from "react-router-dom"
 
 import './App.css'
-import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom"
-// import Login from './Components/Login/Login'
-// import Register from './Components/Resgister/Register'
-// import Layout from './Components/Layout/Layout'
-// import Notfound from './Components/Notfound/Notfound'
-// import Home from './Components/Home/Home'
-// import Viewdoctor from './Components/Viewdoctor/Viewdoctor'
-// import Viewpatient from './Components/ViewPatient/Viewpatient'
-// import Adddoctor from './Components/AddDoctor/Adddoctor'
-
 
 
 
@@ -67,10 +58,7 @@ function App() {
 
                 <Route path="/dashboard" element={
                   <ProtectedRoute>
-
                     <Dashboard />
-
-
                   </ProtectedRoute>
                 } />
 
@@ -101,11 +89,8 @@ function App() {
 
 
                 <Route path="/bar" element={
-
                   <ProtectedRoute>
-
                     <Bar />
-
                   </ProtectedRoute>
                 } />
 
@@ -114,11 +99,9 @@ function App() {
                   <ProtectedRoute>
                     <Pie />
                   </ProtectedRoute>
-
                 } />
 
                 <Route path="/faq" element={
-
                   <ProtectedRoute>
                     <FAQ />
                   </ProtectedRoute>

@@ -24,13 +24,7 @@ const Contacts = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { userLogin } = useContext(UserContext);
-
-  if (!userLogin) {
-    return null; // Hide page if user is not logged in
-  }
-
-
+  const { token } = useContext(AuthContext);
 
   const handleDeletePatient = (id) => async () => {
 
@@ -38,7 +32,7 @@ const Contacts = () => {
       const res = await axios
         .delete('http://localhost:4000/api/admin/delete-patient', {
           headers: {
-            'atoken': userLogin,
+            'atoken': token,
             'Content-Type': 'application/json',
           },
           data: { "patientId": id },
@@ -55,7 +49,7 @@ const Contacts = () => {
     try {
       const res = await axios.get('http://localhost:4000/api/user/list', {
         headers: {
-          'atoken': userLogin
+          'atoken': token
         }
       }
       );
