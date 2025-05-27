@@ -17,7 +17,7 @@ import CancelIcon from '@mui/icons-material/Close';
 
 import axios from "axios";
 
-const Contacts = () => {
+const Patients = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -244,4 +244,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default Patients;

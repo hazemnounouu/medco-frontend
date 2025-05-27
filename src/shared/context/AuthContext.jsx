@@ -34,7 +34,7 @@ const AuthContextProvider = ({ children }) => {
     const [userSession, setUserSession] = useState(getUserData());
     const { token, userId, role } = userSession;
 
-    const login = useCallback((userId, token) => {
+    const login = useCallback((userId, token, role) => {
         setUserSession({
             token,
             userId,

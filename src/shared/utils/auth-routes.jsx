@@ -32,3 +32,4 @@ export const AdminProtectedRoute = ({ children }) => {
     }
     return children;
 };
+

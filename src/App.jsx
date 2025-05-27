@@ -1,16 +1,8 @@
 import { useState } from 'react'
 import { Route, Routes } from "react-router-dom"
-
 import './App.css'
-
-
-
-
-
 import Topbar from "./screens/global/Topbar";
 import Sidebar from "./screens/global/Sidebar";
-
-
 import Dashboard from './screens/Admin/dashboard';
 import Doctors from "./screens/Admin/Doctors";
 import Invoices from "./screens/Admin/Invoices";
@@ -19,12 +11,12 @@ import Bar from "./screens/Admin/BarChart";
 import AddDoctor from "./screens/Admin/AddDoctor";
 import Pie from "./screens/Admin/PieChart";
 import FAQ from "./screens/Admin/Faq";
-
+import Appointments from "./screens/Doctor/Appointments";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Login from './components/Login/Login';
-
 import { SignedInProtectedRoute, ProtectedRoute } from './shared/utils/auth-routes'
+
 
 
 
@@ -63,7 +55,6 @@ function App() {
                 } />
 
 
-
                 <Route path="/doctors" element={
                   <ProtectedRoute>
                     <Doctors />
@@ -76,6 +67,8 @@ function App() {
                     <Patients />
                   </ProtectedRoute>
                 } />
+
+
                 {/* <Route path="/invoices" element={<Invoices />} /> */}
 
 
@@ -85,7 +78,6 @@ function App() {
                     <AddDoctor />
                   </ProtectedRoute>
                 } />
-
 
 
                 <Route path="/bar" element={
@@ -106,7 +98,19 @@ function App() {
                     <FAQ />
                   </ProtectedRoute>
                 } />
+
+
+
+              {/* DOCTOR */}
+              <Route path="/appointments" element={
+                <ProtectedRoute>
+                  <Appointments />
+                </ProtectedRoute>
+              } />
+
               </Routes>
+
+
               {/* ROUTES */}
             </main>
           </div>

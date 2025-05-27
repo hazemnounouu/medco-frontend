@@ -18,41 +18,47 @@ export default function Login() {
 
   const navigate = useNavigate();
   const [ApiError, setApiError] = useState("")
-  const [isLoading, setisLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const { login } = useContext(AuthContext);
 
 
 
 
   async function handleLogin(values) {
-    setisLoading(true);
+    setIsLoading(true);
+
 
     try {
       const res = await axios
-        .post('http://localhost:4000/api/admin/login', values)
+        .post('http://localhost:4000/api/doctor/login', values)
 
-      if (res.data.success == true) {
-        setisLoading(false)
+      if (res.status == 201) {
+        setIsLoading(false)
 
-        const { userId, token, role } = res.data
+        console.log('DONE')
 
-        console.log(res.data)
+        const { role, id } = res.data.data;
+        const token = res.data.token
 
-        login(userId, token, role);
+
+        console.log(id, token, role)
+
+
+        login(id, token, role);
 
         if (role == 'admin') {
           navigate("/dashboard")
         }
         else {
-          navigate('appointments')
+          navigate('/appointments')
         }
+      } else {
+        setIsLoading(false);
+        setApiError(res.data.message)
       }
     }
-
     catch (error) {
-      setisLoading(false)
-      setApiError(res.response.data.message)
-
+      setIsLoading(false);
     }
   }
 
