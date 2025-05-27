@@ -47,12 +47,14 @@ const Patients = () => {
 
   const fetchPatients = async () => {
     try {
-      const res = await axios.get('http://localhost:4000/api/user/list', {
-        headers: {
-          'atoken': token
-        }
+      const res = await axios.get('http://localhost:4000/api/patient/list', {
+        headers: { Authorization: `Bearer ${token}` }
       }
       );
+
+      console.log(res.data.data)
+
+
       if (res.status === 200) {
         setPatients(res.data.data);
         setLoading(false);
@@ -100,7 +102,6 @@ const Patients = () => {
       field: "gender",
       headerName: "Gender",
       renderCell: ({ row: { gender } }) => {
-        gender = 'male'
 
         if (gender == 'Not Selected') {
 
@@ -119,14 +120,14 @@ const Patients = () => {
             display="flex"
             justifyContent="center"
             backgroundColor={
-              gender === "male"
+              gender === "Male"
                 ? colors.blueAccent[600]
                 : colors.pinkAccent[400]
             }
             borderRadius="4px"
           >
-            {gender === "male" && <MaleOutlinedIcon />}
-            {gender === "female" && <FemaleOutlinedIcon />}
+            {gender === "Male" && <MaleOutlinedIcon />}
+            {gender === "Female" && <FemaleOutlinedIcon />}
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
               {gender}
             </Typography>

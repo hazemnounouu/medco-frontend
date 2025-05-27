@@ -9,13 +9,16 @@ import { AuthContext } from "../../shared/context/AuthContext";
 
 import MaleOutlinedIcon from '@mui/icons-material/MaleOutlined';
 import FemaleOutlinedIcon from '@mui/icons-material/FemaleOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
 import axios from "axios";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const Appointments = () => {
     const theme = useTheme();
@@ -32,7 +35,9 @@ const Appointments = () => {
             const res = await axios.get('http://localhost:4000/api/appointments/doctor', {
                 headers: { Authorization: `Bearer ${token}` }
             }
+
             );
+            console.log(res.data)
             if (res.status === 200) {
                 setAppointments(res.data.data);
                 setIsLoading(false);
@@ -55,124 +60,109 @@ const Appointments = () => {
         // { field: "id", headerName: "ID", flex: 0.5 },
 
         {
-            field: "name",
-            headerName: "Name",
+            field: "userData.name",
+            headerName: "Patient Name",
+            valueGetter: ({ row }) => row.userData.name,
+            flex: 1,
             cellClassName: "name-column--cell",
         },
         {
-            field: 'image',
-            headerName: 'Image',
+            field: "slotDate",
+            headerName: "Date",
+                        flex: 1,
+
+        },
+        {
+            field: 'slotTime',
+            headerName: 'Time',
+                        flex: 1,
+
             // width: 150,
             // editable: true,
-            renderCell: (params) => <img width={35} className="rounded-full" src={params.value} />, // renderCell will render the component
         },
         {
-            field: "email",
-            headerName: "Email",
-            flex: 1
+            field: "userData.phone",
+            headerName: "Patient Phone",
+                        flex: 1,
+
+            valueGetter: ({ row }) => row.userData.phone,
         },
         {
-            field: "phone",
-            headerName: "Phone",
-            flex: 1,
+
+            field: "userData.email",
+            headerName: "Patient Email",
+                        flex: 1,
+
+            valueGetter: ({ row }) => row.userData.email,
         },
         {
-            field: "gender",
+            field: "userData.gender",
             headerName: "Gender",
-            renderCell: ({ row: { gender } }) => {
-                gender = 'male'
+            width: 130,
+            valueGetter: ({ row }) => row.userData.gender,
+            renderCell: ({ row }) => {
+                const gender = row.userData.gender;
 
-                if (gender == 'Not Selected') {
-
+                if (gender === 'Not Selected') {
                     return (
                         <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
                             N/A
                         </Typography>
-                    )
+                    );
                 }
 
                 return (
                     <Box
-                        width="=100%"
+                        width="100%"
                         m="0 auto"
                         p="5px"
                         display="flex"
                         justifyContent="center"
                         backgroundColor={
-                            gender === "male"
+                            gender === "Male"
                                 ? colors.blueAccent[600]
                                 : colors.pinkAccent[400]
                         }
                         borderRadius="4px"
                     >
-                        {gender === "male" && <MaleOutlinedIcon />}
-                        {gender === "female" && <FemaleOutlinedIcon />}
+                        {gender === "Male" && <MaleOutlinedIcon />}
+                        {gender === "Female" && <FemaleOutlinedIcon />}
                         <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
                             {gender}
                         </Typography>
                     </Box>
                 );
             },
-        },
-        {
-            field: "dob",
-            headerName: "Date Of Birth",
-            flex: 1,
-        },
+        }, {
+            field: "cancelled",
+            headerName: "Status",
+            width: 130,
+            renderCell: ({ row }) => {
+                const cancelled = row.cancelled;
 
-        {
-            field: 'actions',
-            type: 'actions',
-            headerName: 'Actions',
-            width: 100,
-            cellClassName: 'actions',
-            getActions: ({ id }) => {
-                // const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-                // if (isInEditMode) {
-                //   return [
-                //     <GridActionsCellItem
-                //       icon={<SaveIcon />}
-                //       label="Save"
-                //       material={{
-                //         sx: {
-                //           color: 'primary.main',
-                //         },
-                //       }}
-                //       onClick={handleSaveClick(id)}
-                //     />,
-                //     <GridActionsCellItem
-                //       icon={<CancelIcon />}
-                //       label="Cancel"
-                //       className="textPrimary"
-                //       onClick={handleCancelClick(id)}
-                //       color="inherit"
-                //     />,
-                //   ];
-                // }
-
-                return [
-                    // <GridActionsCellItem
-                    //   icon={<EditIcon />}
-                    //   label="Edit"
-                    //   className="textPrimary"
-                    //   onClick={handleEditClick(id)}
-                    //   color="inherit"
-                    // />,
-                    <GridActionsCellItem
-                        icon={<DeleteIcon />}
-                        label="Delete"
-                        onClick={handleDeleteApointment(id)}
-                        color="inherit"
-                    />,
-                ];
+                return (
+                    <Box
+                        width="100%"
+                        m="0 auto"
+                        p="5px"
+                        display="flex"
+                        justifyContent="center"
+                        backgroundColor={
+                            cancelled === true
+                                ? colors.redAccent[600]
+                                : colors.greenAccent[600]
+                        }
+                        borderRadius="4px"
+                    >
+                        {cancelled && <CloseOutlinedIcon />}
+                        {!cancelled && <CheckOutlinedIcon />}
+                        <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
+                            {cancelled ? "Canceled" : "Waiting"}
+                        </Typography>
+                    </Box>
+                );
             },
         },
-
-
-
-
-
     ];
 
     return (

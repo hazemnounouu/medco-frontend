@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
+
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
@@ -21,7 +21,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 
 
-const Team = () => {
+const Doctors = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -37,8 +37,7 @@ const Team = () => {
       const res = await axios
         .delete('http://localhost:4000/api/admin/delete-doctor', {
           headers: {
-            'atoken': token,
-            'Content-Type': 'application/json',
+            headers: { Authorization: `Bearer ${token}` }
           },
           data: { "docId": id },
         });
@@ -106,7 +105,6 @@ const Team = () => {
       field: "status",
       headerName: "Status",
       renderCell: ({ row: { status } }) => {
-        status = 'Pending'
 
         return (
           <Box
@@ -228,4 +226,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default Doctors;

@@ -25,7 +25,10 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
-import AdminImage from '../../assets/admin.png'
+import adminImage from '../../assets/admin.png'
+import doctorImage from '../../assets/doctor.png'
+
+
 import { AuthContext } from "../../shared/context/AuthContext";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -60,7 +63,6 @@ const Sidebar = () => {
   if (!token) {
     return null;
   }
-
 
   return (
     <Box
@@ -118,7 +120,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={AdminImage}
+                  src={role === 'admin' ? adminImage : doctorImage}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -129,7 +131,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Admin
+                  {role === 'admin' ? 'Admin' : 'Doctor'}
                 </Typography>
                 {/* <Typography variant="h5" color={colors.greenAccent[500]}>
                   System Admin
@@ -224,8 +226,12 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
             </>}
-            {role === 'doctor' &&
 
+            {/* DOCTOR */}
+
+
+            {
+              role === 'doctor' &&
               <>
                 <Typography
                   variant="h6"
@@ -236,14 +242,14 @@ const Sidebar = () => {
                 </Typography>
                 <Item
                   title="Manage Appointments"
-                  to="/Appointments"
+                  to="/appointments"
                   icon={<PeopleOutlinedIcon />}
                   selected={selected}
                   setSelected={setSelected}
                 />
                 <Item
-                  title="Manage Patients"
-                  to="/patients"
+                  title="Manage Reports"
+                  to="/reports"
                   icon={<PeopleOutlinedIcon />}
                   selected={selected}
                   setSelected={setSelected}
